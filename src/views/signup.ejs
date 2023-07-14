@@ -1,0 +1,213 @@
+<%- layout('layouts/main')%>
+  <div class="container-flex bg-light vh-100 mt-2 align-items-center justify-content-center row text-bg-light">
+    <div class="card col-auto" style="width: 27rem;">
+      <form action="signup" method="POST" class="bg-light p-4 needs-validation" novalidate>
+        <div class="card-header">
+          <div class="d-flex">
+            <h3 class="col-12 text-center">Registrate</h3>
+            <!--Icono cerrar-->
+            <a href="/" class="col-6">
+              <i>
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"
+                  id="Capa_1" x="0px" y="0px" viewBox="0 0 512.021 512.021"
+                  style="enable-background:new 0 0 512.021 512.021;" xml:space="preserve" width="15" height="15">
+                  <g>
+                    <path
+                      d="M301.258,256.01L502.645,54.645c12.501-12.501,12.501-32.769,0-45.269c-12.501-12.501-32.769-12.501-45.269,0l0,0   L256.01,210.762L54.645,9.376c-12.501-12.501-32.769-12.501-45.269,0s-12.501,32.769,0,45.269L210.762,256.01L9.376,457.376   c-12.501,12.501-12.501,32.769,0,45.269s32.769,12.501,45.269,0L256.01,301.258l201.365,201.387   c12.501,12.501,32.769,12.501,45.269,0c12.501-12.501,12.501-32.769,0-45.269L301.258,256.01z" />
+                  </g>
+                </svg>
+              </i></a>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="mb-3">
+            <div class="form-floating mb-3">
+              <input type="email" class="form-control" name="email" id="email" placeholder="Correo Electronico"
+                required>
+              <label for="email">Correo Electronico</label>
+            </div>
+            <div class="valid-feedback">Valid.</div>
+            <div class="invalid-feedback">Please fill out this field.</div>
+          </div>
+          <div class="mb-3">
+            <div class="form-floating mb-3">
+              <div class="input-group">
+                <input type="password" class="form-control" name="password" id="password" placeholder="Contraseña"
+                pattern="^(?=.*\d)(?=.*[\u0021-\u002b\u003c-\u0040])(?=.*[A-Z])(?=.*[a-z])\S{8,16}$" required>
+                <!--Mostrar contraseña-->
+                <div class="input-group-append">
+                  <button id="show_password" class="btn btn-dark" type="button" onclick="mostrarPassword()"> <span class="fa fa-eye-slash" id="icon"></span> </button>
+                </div>
+              </div>
+
+            </div>
+            <div class="valid-feedback">Valid.</div>  
+            <div class="invalid-feedback">Please fill out this field.</div>
+          </div>
+          <!-- ========== Start Section ========== 
+          <div class="mb-3">
+            <div class="form-floating mb-3">
+              <input type="password" class="form-control" name="confirm" id="confirm" placeholder="Confirmar contraseña"
+                required>
+              <label for="confirm">Confirmar contraseña</label>
+            </div>
+          </div>
+           ========== End Section ========== -->
+
+          <div class="mb-3">
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control" name="name" id="name" placeholder="Nombre" minlength="3"  required>
+              <label for="name">Nombre</label>
+            </div>
+            <div class="valid-feedback">Valid.</div>
+            <div class="invalid-feedback">Please fill out this field.</div>
+          </div>
+          <div class="mb-3">
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control" name="lastname" id="lastname" placeholder="Apellidos"
+                minlength="4" required>
+              <label for="lastname">Apellidos</label>
+            </div>
+            <div class="valid-feedback">Valid.</div>
+            <div class="invalid-feedback">Please fill out this field.</div>
+          </div>
+        </div>
+        <div class="mb-3">
+          <ul>
+            <li class="card-text" id="caracteres" style="color:red ;">La contraseña debe contener 8 caracteres como
+              mínimo</li>
+            <li class="card-text" id="unamayuscula" style="color:red ;">La contraseña debe contener al menos una
+              mayúscula</li>
+            <li class="card-text" id="unnumero" style="color:red ;">La contraseña debe contener al menos un número</li>
+
+            <li class="card-text" id="unacaracter" style="color:red ;">La contraseña debe contener al menos un carácter
+              especial</li>
+
+            
+            <!--
+              <li class="card-text" id="coinciden" style="color:red ;">Las contraseñas no coinciden</li>
+              -->
+
+          </ul>
+
+        </div>
+        <div class="card-footer">
+          <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+            <button type="submit" class="btn btn-dark me-2" id="registrar">Registrate</button>
+          </div>
+        </div>
+    </div>
+    </form>
+  </div>
+  </div>
+  <script>
+    //analizar contraseña
+    //eventos addEventListener
+    var contraseña = document.querySelector("#password");
+    var contraseña2 = document.querySelector("#confirm");
+    var caracteres = document.querySelector("#caracteres");
+    var mayuscula = document.querySelector("#unamayuscula");
+    var numero = document.querySelector("#unnumero");
+    var caracterespecial = document.querySelector("#unacaracter");
+    //var confirm = document.querySelector("#coinciden");
+    contraseña.addEventListener('keyup', function (event) {
+      console.log("[keyup] Tecla soltada", String.fromCharCode(event.keyCode));
+      //validar que tenga 8 caracteres
+      if (contraseña.value.length >= 8) {
+        caracteres.style.color = "green";
+      } else {
+        caracteres.style.color = "red";
+      }
+      //validar que tenga una mayuscula
+      if (contraseña.value.match(/[A-Z]/)) {
+        mayuscula.style.color = "green";
+      }
+      else {
+        mayuscula.style.color = "red";
+      }
+      //validar que tenga un numero
+      if (contraseña.value.match(/[0-9]/)) {
+        numero.style.color = "green";
+      }
+      else {
+        numero.style.color = "red";
+      }
+      
+      //validar que tenga un caracter especial
+      if (contraseña.value.match(/[!@#$%^&*()_+]/)) {
+        caracterespecial.style.color = "green";
+      }
+      else {
+        caracterespecial.style.color = "red";
+      }
+      /*
+      //validar que las contraseñas coincidan
+      if (contraseña.value == contraseña2.value) {
+        confirm.style.color = "green";
+      }
+      else {
+        confirm.style.color = "red";
+      }
+      */
+
+    });
+    /*
+    contraseña2.addEventListener('keyup', function (event) {
+      console.log("[keyup] Tecla soltada", String.fromCharCode(event.keyCode));
+      //validar que las contraseñas coincidan
+      if (contraseña.value == contraseña2.value) {
+        confirm.style.color = "green";
+        banderacontraseña = true;
+      }
+      else {
+        confirm.style.color = "red";
+        banderacontraseña = false;
+      }
+    }
+    );
+    */
+  </script>
+
+  <script>
+    /*=============================================
+VALIDAR FORMULARIO
+=============================================*/
+
+    (function () {
+      'use strict';
+      window.addEventListener('load', function () {
+        // Get the forms we want to add validation styles to
+        var forms = document.getElementsByClassName('needs-validation');
+        // Loop over them and prevent submission
+        var validation = Array.prototype.filter.call(forms, function (form) {
+          form.addEventListener('submit', function (event) {
+            if (form.checkValidity() === false) {
+              event.preventDefault();
+              event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+          }, false);
+        });
+      }, false);
+    })();
+  </script>
+
+<script>
+  function mostrarPassword(){
+		var cambio = document.getElementById("password");
+		if(cambio.type == "password"){
+			cambio.type = "text";
+			$('#icon').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
+		}else{
+			cambio.type = "password";
+			$('#icon').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
+		}
+	} 
+	
+	$(document).ready(function () {
+	//CheckBox mostrar contraseña
+	$('#show_password').click(function () {
+		$('#password').attr('type', $(this).is(':checked') ? 'text' : 'password');
+	});
+});
+</script>
